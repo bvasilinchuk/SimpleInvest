@@ -19,7 +19,6 @@ class StocksViewModel: ObservableObject {
     @Published var stocks = [Stock]()
     let dbReference = Firestore.firestore()
     @Published var isLoading: Bool = false
-    private var apiKey = "3HZXZ31II44BDOPT"
     var email: String
     let stocksAPI = StocksAPI()
     var totalValue: Double {
@@ -56,43 +55,24 @@ class StocksViewModel: ObservableObject {
         return value
     }
     
-    //Welcome to Alpha Vantage! Your API key is: 3HZXZ31II44BDOPT. Please record this API key at a safe place for future data access.
-    //Функция которая асинхронно подгружает основные данные об одной акции по тикеру
-    func fetchStock(ticker: String) async throws -> StockQuote {
-        let url = URL(string: "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=\(ticker)&apikey=\(apiKey)")!
-            async let (data, _) = await URLSession.shared.data(from: url)
-            let response = try await JSONDecoder().decode(ResponseQuote.self, from: data)
-            return response.stock
-    }
     
     func getStockAsync(ticker: String, name: String, quantity: Double, averagePrice: Double, completion: @escaping () -> ()) {
         Task{
             isLoading = true
             do{
                 print("2. \(String.timestamp())")
-//                let stock = try? await fetchStock(ticker: ticker)
-//                let stockData = try? await fetchStockData(ticker: ticker)
-                //Yahhoo
-                //================================================
                 let stockFromYahoo = try? await fetchStockDataYahoo(ticker: ticker)
                 let stockSummaryFromYahoo = try? await fetchStockSummaryYahoo(ticker: ticker)
                 if let stock = stockFromYahoo?.data?[0]{
                     if let stockSummary = stockSummaryFromYahoo?.data?[0].summaryProfile{
-                        //                if let stock = stock {
-                        //                    if let stockData = stockData {
                         let stockToIncert = Stock(currentPrice: stock.regularMarketPrice ?? 0.0, quantity: quantity, name: name, ticker: ticker, description: stockSummary.longBusinessSummary ?? "", currency: stock.financialCurrency ?? "", marketCap: stock.marketCap ?? 0.0, peRatio: stock.trailingPE ?? 0.0, dividendsPastYear: stock.trailingAnnualDividendRate ?? 0.0, dividendYield: stock.trailingAnnualDividendYield ?? 0.0, fiftyTwoWeekHigh: stock.fiftyTwoWeekHigh ?? 0.0, fiftyTwoWeekLow: stock.fiftyTwoWeekLow ?? 0.0, averagePrice: averagePrice)
                         print("stock \(stockToIncert.ticker) is ready to be added to array")
-                        print("stock's id: \(stockToIncert.firebaseId)")
                         addOrUpdateStockFirebase(stock: stockToIncert)
                         fetchStocks()
-                        try await Task.sleep(nanoseconds: 1_000_000_000)
+                        try await Task.sleep(nanoseconds: 500_000_000)
                     }
                 }
-//                    }
-//                }
-                
                 isLoading = false
-                print("3. \(String.timestamp())")
                 completion()
                 
             } catch{
@@ -167,7 +147,7 @@ extension StocksViewModel{
         }
     }
     
-
+    
     
     func addStockFirebase(stock: Stock){
         let ref = dbReference.collection(email)
@@ -188,7 +168,7 @@ extension StocksViewModel{
     }
     
     func removeStocks (){
-       stocks.removeAll()
+        stocks.removeAll()
     }
     
     func deleteFromFirebase(indexSet: IndexSet) {
@@ -222,40 +202,27 @@ extension StocksViewModel{
                 documentIdArray.append(stock.firebaseId)
             }
             let tickers: String = tickersArray.joined(separator: ",")
-        Task{
-            do{
-                let stockData = try? await fetchStockDataYahoo(ticker: tickers)
-                if let stockData = stockData?.data{
-                    for i in stockData.indices{
-                        batch.updateData(["currentPrice": stockData[i].regularMarketPrice ?? 0.0, "marketCap": stockData[i].marketCap ?? 0.0, "peRatio": stockData[i].trailingPE ?? 0.0, "dividendsPastYear": stockData[i].trailingAnnualDividendRate ?? 0.0, "dividendYield": stockData[i].trailingAnnualDividendYield ?? 0.0, "fiftyTwoWeekHigh": stockData[i].fiftyTwoWeekHigh ?? 0.0, "fiftyTwoWeekLow": stockData[i].fiftyTwoWeekLow ?? 0.0], forDocument: collectionRef.document(documentIdArray[i]))
-                    }
-                    batch.commit { error in
-                        if let error = error {
-                            print("Error deleting documents: \(error.localizedDescription)")
-                        } else {
-                            print("Documents deleted successfully")
+            Task{
+                do{
+                    let stockData = try? await fetchStockDataYahoo(ticker: tickers)
+                    if let stockData = stockData?.data{
+                        for i in stockData.indices{
+                            batch.updateData(["currentPrice": stockData[i].regularMarketPrice ?? 0.0, "marketCap": stockData[i].marketCap ?? 0.0, "peRatio": stockData[i].trailingPE ?? 0.0, "dividendsPastYear": stockData[i].trailingAnnualDividendRate ?? 0.0, "dividendYield": stockData[i].trailingAnnualDividendYield ?? 0.0, "fiftyTwoWeekHigh": stockData[i].fiftyTwoWeekHigh ?? 0.0, "fiftyTwoWeekLow": stockData[i].fiftyTwoWeekLow ?? 0.0], forDocument: collectionRef.document(documentIdArray[i]))
+                        }
+                        batch.commit { error in
+                            if let error = error {
+                                print("Error updating stocks: \(error.localizedDescription)")
+                            } else {
+                                print("All stocks updated successfully")
+                            }
                         }
                     }
+                    
                 }
-                
             }
         }
     }
-    }
     
-}
-
-
-//Fetching Company Overview from https://www.alphavantage.co/query?function=OVERVIEW&symbol=IBM&apikey=3HZXZ31II44BDOPT
-extension StocksViewModel{
-    func fetchStockData(ticker: String) async throws -> CompanyData {
-        print("fetchstockdata is initiated for \(ticker)")
-        let url = URL(string: "https://www.alphavantage.co/query?function=OVERVIEW&symbol=\(ticker)&apikey=3HZXZ31II44BDOPT")!
-        async let (data, _) = await URLSession.shared.data(from: url)
-        let response = try await JSONDecoder().decode(CompanyData.self, from: data)
-        print("stockdata for \(response.currency) is ready to be returned")
-        return response
-    }
     
     //fetch Stock data (quote) from YahooFinance
     func fetchStockDataYahoo(ticker: String) async throws -> StockQuoteYahooResponse {
@@ -265,10 +232,7 @@ extension StocksViewModel{
         if let error = response.error {
             throw APIServiceError.httpStatusCodeFailed(statusCode: statusCode, error: error)
         }
-//        async let (data, _) = await URLSession.shared.data(from: url)
-//        try await print(data)
-//        let response = try await JSONDecoder().decode(StockQuoteYahooResponse.self, from: data)
-        print(response)
+        print("stockData fetched with status code \(statusCode)")
         return response
     }
     
@@ -276,24 +240,16 @@ extension StocksViewModel{
     func fetchStockSummaryYahoo(ticker: String) async throws -> StockSummaryYahooResponse {
         print("fetchstocksummary from Yahoo is initiated for \(ticker)")
         let url = URL(string: "https://query2.finance.yahoo.com/v10/finance/quoteSummary/\(ticker)?modules=summaryProfile")!
-        async let (data, _) = await URLSession.shared.data(from: url)
-        try await print(data)
-        try await print(String(data: data, encoding: .utf8) as Any)
-        let response = try await JSONDecoder().decode(StockSummaryYahooResponse.self, from: data)
-        print(response)
+        let (response, statusCode): (StockSummaryYahooResponse, Int) = try await stocksAPI.fetch(url: url)
+        if let error = response.error {
+            throw APIServiceError.httpStatusCodeFailed(statusCode: statusCode, error: error)
+        }
+        //        async let (data, _) = await URLSession.shared.data(from: url)
+        //        try await print(data)
+        //        try await print(String(data: data, encoding: .utf8) as Any)
+        //        let response = try await JSONDecoder().decode(StockSummaryYahooResponse.self, from: data)
+        //        print(response)
         return response
     }
-    
-    
-    
-    //TEST PURPOSES!
-    func testFetch() async throws -> () {
-        print("fetchstockdata is initiated for AAPL")
-        let url = URL(string: "https://query1.finance.yahoo.com/v8/finance/chart/grtgsde?range=1d&interval=1m&indicators=quote&includeTimestamps=true")!
-        async let (data, _) = await URLSession.shared.data(from: url)
-        let response = try await JSONDecoder().decode(ChartResponse.self, from: data)
-        print(response)
-    }
-    
     
 }

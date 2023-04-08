@@ -7,6 +7,8 @@
 
 import Foundation
 
+//https://query1.finance.yahoo.com/v8/finance/chart/AAPL?range=1d&interval=1m&indicators=quote&includeTimestamps=true
+
 struct ChartResponse: Decodable{
     let data: [ChartData]?
     let error: ErrorResponse?

@@ -12,3 +12,5 @@ import SwiftUI
 //.background( RoundedRectangle(cornerRadius: 30).fill(Color. darkBlue)
 //.background( RoundedRectangle(cornerRadius: 30).stroke(Color.gray)
 //Text().linelimit(1).truncationmode(.tail)
+
+

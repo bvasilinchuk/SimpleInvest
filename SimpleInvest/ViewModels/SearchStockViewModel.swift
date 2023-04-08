@@ -8,33 +8,21 @@
 import Foundation
 @MainActor
 class SearchStockViewModel: ObservableObject{
-//    @Published var matchedStocks: [SearchResult] = []
     @Published var matchedStocks: [SearchStock] = []
-    
-    //Welcome to Alpha Vantage! Your API key is: 3HZXZ31II44BDOPT. Please record this API key at a safe place for future data access.
-    
-    func fetchStocks(ticker: String) async throws ->
-//    [SearchResult]
-    [SearchStock]
-    {
-//        guard let url = URL(string: "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=\(ticker)&apikey=3HZXZ31II44BDOPT")
+    let stocksAPI = StocksAPI()
+
+    func fetchStocks(ticker: String) async throws -> [SearchStock]{
         guard let url = URL(string:"https://query1.finance.yahoo.com/v1/finance/search?q=\(ticker)")else {
-//            return [SearchResult]()
             print("could not reach url")
             return [SearchStock]()
 
         }
-            async let (data, _) = await URLSession.shared.data(from: url)
-//            let response = try await JSONDecoder().decode(ResponseSearch.self, from: data)
-        let response = try await JSONDecoder().decode(SearchStockResponse.self, from: data)
-        if let response = response.stocks{
-            print("SearchStock success response is \(response)")
-            return response
-        } else {
-            print("Could not unwrap optional\(try await String(data: data, encoding: .utf8) ?? "no value")")
-            return [SearchStock]()
-            
+        let (response, statusCode): (SearchStockResponse, Int) = try await stocksAPI.fetch(url: url)
+        guard let response = response.stocks else{
+            throw APIServiceError.httpStatusCodeFailed(statusCode: statusCode, error: response.error)
         }
+        print("stockData fetched with status code \(statusCode)")
+        return response
     }
     
     func clearList(){
@@ -59,8 +47,4 @@ class SearchStockViewModel: ObservableObject{
         completion()
         }
     }
-    
-    
-    //Functions that will use Yahoo Finance API
-    
 }

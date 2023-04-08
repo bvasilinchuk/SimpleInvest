@@ -7,31 +7,6 @@
 
 import Foundation
 
-//This is needed to Decode response from API call to obtain array of search results
-struct SearchResult: Decodable, Hashable, Identifiable{
-    let symbol: String
-    let id = UUID()
-    let name: String
-    let type: String
-    
-    enum CodingKeys: String, CodingKey {
-        case symbol = "1. symbol"
-        case name = "2. name"
-        case type = "3. type"
-    }
-}
-
-
-struct ResponseSearch: Decodable {
-    let stocks: [SearchResult]
-    enum CodingKeys: String, CodingKey {
-        case stocks = "bestMatches"
-    }
-}
-
-
-
-
 //Object from Yahoo API
 //https://query1.finance.yahoo.com/v1/finance/search?q=Apple
 

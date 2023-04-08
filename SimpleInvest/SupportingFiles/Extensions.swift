@@ -20,14 +20,6 @@ extension String {
 
         return String(format: "%@", dateFMT.string(from: now))
     }
-
-//    func tad2Date() -> Date? {
-//        let dateFMT = DateFormatter()
-//        dateFMT.locale = Locale(identifier: "en_US_POSIX")
-//        dateFMT.dateFormat = "yyyyMMdd'T'HHmmss.SSSS"
-//
-//        return dateFMT.date(from: self)
-//    }
 }
 
 struct LossProfitColor: ViewModifier {

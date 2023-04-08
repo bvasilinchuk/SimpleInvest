@@ -57,13 +57,6 @@ struct HomeView: View {
                 }})
             .listStyle(.inset)
             Button(action: {
-                Task{
-                    do{
-                        try await stocksViewModel.testFetch()
-                    } catch{
-                        
-                    }
-                }
             }, label: {Text("update")})
         }
         .padding()
