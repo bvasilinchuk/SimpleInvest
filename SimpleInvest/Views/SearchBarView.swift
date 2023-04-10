@@ -27,27 +27,10 @@ struct SearchBarView: View {
                     NavigationLink( destination: {
                         AddNewAssetView(viewModel: stocksViewModel, searchViewModel: searchViewModel, searchText: $searchText, isShowingAddNewAsset: $isShowingAddNewAsset, name: result.name ?? "no value", ticker: result.symbol ?? "no_value").navigationBarTitleDisplayMode(.inline)
                     },
-                    
-                label: {
-                        VStack{
-                            Text(result.name ?? "no_value")
-                                .font(.body)
-                                .bold()
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            Text(result.symbol ?? "ni value")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                        }
-                        })
-                        .multilineTextAlignment(.leading)
-                                        .padding(.all, 5)
-                                        .cornerRadius(8)
-                                .background(Color.white)
-                                .cornerRadius(8)
-                                .padding(.top, 5)
-                                
-                    }.frame(minHeight: 0, maxHeight: .infinity)
+                                    label:{
+                        ListRowView(name: result.name ?? "", ticker: result.symbol ?? "", placement: .search)
+                    })}
+                .frame(minHeight: 0, maxHeight: .infinity)
                                    }
                 .overlay(Group{
                     if searchViewModel.matchedStocks.isEmpty {

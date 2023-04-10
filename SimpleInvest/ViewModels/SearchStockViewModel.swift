@@ -13,9 +13,7 @@ class SearchStockViewModel: ObservableObject{
 
     func fetchStocks(ticker: String) async throws -> [SearchStock]{
         guard let url = URL(string:"https://query1.finance.yahoo.com/v1/finance/search?q=\(ticker)")else {
-            print("could not reach url")
-            return [SearchStock]()
-
+            throw APIServiceError.invalidURL
         }
         let (response, statusCode): (SearchStockResponse, Int) = try await stocksAPI.fetch(url: url)
         guard let response = response.stocks else{

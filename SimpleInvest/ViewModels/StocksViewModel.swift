@@ -227,7 +227,9 @@ extension StocksViewModel{
     //fetch Stock data (quote) from YahooFinance
     func fetchStockDataYahoo(ticker: String) async throws -> StockQuoteYahooResponse {
         print("UPDATED METHOD fetchstockdata from Yahoo is initiated for \(ticker)")
-        let url = URL(string: "https://query1.finance.yahoo.com/v7/finance/quote?symbols=\(ticker)")!
+        guard let url = URL(string: "https://query1.finance.yahoo.com/v7/finance/quote?symbols=\(ticker)") else{
+            throw APIServiceError.invalidURL
+        }
         let (response, statusCode): (StockQuoteYahooResponse, Int) = try await stocksAPI.fetch(url: url)
         if let error = response.error {
             throw APIServiceError.httpStatusCodeFailed(statusCode: statusCode, error: error)
@@ -239,17 +241,26 @@ extension StocksViewModel{
     //fetch Stock summary from YahooFinance
     func fetchStockSummaryYahoo(ticker: String) async throws -> StockSummaryYahooResponse {
         print("fetchstocksummary from Yahoo is initiated for \(ticker)")
-        let url = URL(string: "https://query2.finance.yahoo.com/v10/finance/quoteSummary/\(ticker)?modules=summaryProfile")!
+        guard let url = URL(string: "https://query2.finance.yahoo.com/v10/finance/quoteSummary/\(ticker)?modules=summaryProfile") else{
+            throw APIServiceError.invalidURL
+        }
         let (response, statusCode): (StockSummaryYahooResponse, Int) = try await stocksAPI.fetch(url: url)
         if let error = response.error {
             throw APIServiceError.httpStatusCodeFailed(statusCode: statusCode, error: error)
         }
-        //        async let (data, _) = await URLSession.shared.data(from: url)
-        //        try await print(data)
-        //        try await print(String(data: data, encoding: .utf8) as Any)
-        //        let response = try await JSONDecoder().decode(StockSummaryYahooResponse.self, from: data)
-        //        print(response)
         return response
     }
     
+    //fetch stock chart data from YahooFinance
+    func fetchChartData(ticker: String, range: ChartRange) async throws -> ChartData? {
+        print("fetchChartData from Yahoo is initiated for \(ticker)")
+        guard let url = URL(string: "https://query1.finance.yahoo.com/v8/finance/chart/\(ticker)?range=\(range.rawValue)&interval=\(range.interval)&indicators=quote&includeTimestamps=true") else{
+            throw APIServiceError.invalidURL
+        }
+        let (response, statusCode): (ChartResponse, Int) = try await stocksAPI.fetch(url: url)
+        if let error = response.error {
+            throw APIServiceError.httpStatusCodeFailed(statusCode: statusCode, error: error)
+        }
+        return response.data?.first
+    }
 }

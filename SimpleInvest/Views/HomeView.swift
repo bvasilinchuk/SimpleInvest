@@ -39,7 +39,7 @@ struct HomeView: View {
             .background(Color.secondary.opacity(0.3))
             .cornerRadius(10)
             List { ForEach(stocksViewModel.stocks){stock in
-                NavigationLink(destination: StockView(stock: stock), label: {ListRowView(name: stock.name, price: stock.currentPrice, totalPrice: stock.totalPrice, ticker: stock.ticker, quantity: stock.quantity, profitCash: stock.averageProfitCash, profitPercent: stock.averageProfitPercent)})
+                NavigationLink(destination: StockView(stock: stock), label: {ListRowView(name: stock.name, price: stock.currentPrice, totalPrice: stock.totalPrice, ticker: stock.ticker, quantity: stock.quantity, profitCash: stock.averageProfitCash, profitPercent: stock.averageProfitPercent, placement: .home)})
                 
             }
             .onDelete { indexSet in
@@ -57,6 +57,14 @@ struct HomeView: View {
                 }})
             .listStyle(.inset)
             Button(action: {
+                Task{
+                    do{
+                        let response = try await stocksViewModel.fetchChartData(ticker: "AAPL", range: .twoYear)
+                        if let response = response{
+                            print(response)
+                        }
+                    }
+                }
             }, label: {Text("update")})
         }
         .padding()
