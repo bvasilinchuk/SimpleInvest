@@ -55,3 +55,48 @@ struct StandardButtonStyle: ButtonStyle{
                             .padding()
         }
 }
+
+
+extension Date {
+    
+    func dateComponents(timeZone: TimeZone, rangeType: ChartRange, calendar: Calendar = .current) -> DateComponents {
+        let current = calendar.dateComponents(in: timeZone, from: self)
+        
+        var dc = DateComponents(timeZone: timeZone, year: current.year, month: current.month)
+        
+        if rangeType == .oneMonth || rangeType == .oneWeek || rangeType == .oneDay {
+            dc.day = current.day
+        }
+        
+        if rangeType == .oneDay {
+            dc.hour = current.hour
+        }
+        
+        return dc
+    }
+    
+}
+
+
+
+
+#if DEBUG
+struct MockStocksAPI {
+    
+    var stubbedSearchTickersCallback: (() async throws -> [SearchStock])!
+    func searchTickers(query: String, isEquityTypeOnly: Bool) async throws -> [SearchStock] {
+        try await stubbedSearchTickersCallback()
+    }
+    
+    var stubbedFetchQuotesCallback: (() async throws -> [StockQuoteYahoo])!
+    func fetchQuotes(symbols: String) async throws -> [StockQuoteYahoo] {
+        try await stubbedFetchQuotesCallback()
+    }
+    
+    var stubbedFetchChartDataCallback: ((ChartRange) async throws  -> ChartData?)! = { $0.stubs }
+    func fetchChartData(tickerSymbol: String, range: ChartRange) async throws -> ChartData? {
+        try await stubbedFetchChartDataCallback(range)
+    }
+    
+}
+#endif

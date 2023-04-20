@@ -39,7 +39,7 @@ struct HomeView: View {
             .background(Color.secondary.opacity(0.3))
             .cornerRadius(10)
             List { ForEach(stocksViewModel.stocks){stock in
-                NavigationLink(destination: StockView(stock: stock), label: {ListRowView(name: stock.name, price: stock.currentPrice, totalPrice: stock.totalPrice, ticker: stock.ticker, quantity: stock.quantity, profitCash: stock.averageProfitCash, profitPercent: stock.averageProfitPercent, placement: .home)})
+                NavigationLink(destination: StockView(stock: stock, chartViewModel: ChartViewModel(stock: stock)), label: {ListRowView(name: stock.name, price: stock.currentPrice, totalPrice: stock.totalPrice, ticker: stock.ticker, quantity: stock.quantity, profitCash: stock.averageProfitCash, profitPercent: stock.averageProfitPercent, placement: .home)})
                 
             }
             .onDelete { indexSet in
@@ -48,11 +48,15 @@ struct HomeView: View {
         }
             .overlay(Group{
                 if stocksViewModel.stocks.isEmpty {
-                    VStack{
-                    Text("You didn't add any assets yet")
-                    .font(.title2)
-                    .foregroundColor(.secondary)
-                    .padding()
+                    if stocksViewModel.isLoading{
+                        ProgressView()
+                    } else{
+                        VStack{
+                            Text("You didn't add any assets yet")
+                                .font(.title2)
+                                .foregroundColor(.secondary)
+                                .padding()
+                        }
                     }
                 }})
             .listStyle(.inset)
@@ -75,6 +79,9 @@ struct HomeView: View {
                     .labelStyle(.iconOnly)
             })
         }
+        .refreshable {
+            stocksViewModel.fetchStocks()
+        }
     }
         .navigationBarTitleDisplayMode(.inline)
         // Не понимаю почему этот метод вызывается при логауте
@@ -84,7 +91,7 @@ struct HomeView: View {
                 stocksViewModel.fetchStocks()
                 stocksViewModel.updateAllStocks()
             }})
-                  
+
         .sheet(isPresented: $showSearchView, content: {SearchBarView()})
     }
                       
@@ -92,6 +99,13 @@ struct HomeView: View {
                   
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
+        HomeView().environmentObject({ () -> AuthViewModel in
+                            let envObj = AuthViewModel()
+                            return envObj
+                        }() )
+        .environmentObject({ () -> StocksViewModel in
+            let envObj = StocksViewModel(email: "test@mail.com",  stocks: Stock.previewStocks)
+                            return envObj
+                        }() )
     }
 }

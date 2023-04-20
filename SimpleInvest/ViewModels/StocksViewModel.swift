@@ -12,8 +12,9 @@ import Firebase //БД
 @MainActor //нужен для того чтобы все происходило в main thread, так как на это завязаны обновления UI
 
 class StocksViewModel: ObservableObject {
-    init(email: String){
+    init(email: String, stocks: [Stock]){
         self.email = email
+        self.stocks = stocks
     }
 
     @Published var stocks = [Stock]()
@@ -88,11 +89,13 @@ class StocksViewModel: ObservableObject {
     }
     
     func fetchStocks(){
+        isLoading = true
         print("fetchins stocks from firebase with email \(email)")
         let ref = dbReference.collection(email)
         ref.getDocuments{ snapshot, error in
             guard error == nil else{
                 print(error!.localizedDescription)
+                self.isLoading = false
                 return
             }
             if let snapshot = snapshot {
@@ -125,6 +128,7 @@ class StocksViewModel: ObservableObject {
                         }
                     }
                 }
+                self.isLoading = false
             }
         }
     }

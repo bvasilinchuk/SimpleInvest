@@ -6,10 +6,17 @@
 //
 
 import Foundation
+import Combine
 @MainActor
 class SearchStockViewModel: ObservableObject{
     @Published var matchedStocks: [SearchStock] = []
+    @Published var searchString = ""
     let stocksAPI = StocksAPI()
+    init(matchedStocks: [SearchStock], searchString: String = "") {
+        self.matchedStocks = matchedStocks
+        self.searchString = searchString
+        startObserving()
+    }
 
     func fetchStocks(ticker: String) async throws -> [SearchStock]{
         guard let url = URL(string:"https://query1.finance.yahoo.com/v1/finance/search?q=\(ticker)")else {
@@ -25,6 +32,7 @@ class SearchStockViewModel: ObservableObject{
     
     func clearList(){
         matchedStocks = []
+        searchString = ""
     }
     
     func getStockAsync(ticker: String, completion: @escaping () -> ()) {
@@ -45,4 +53,24 @@ class SearchStockViewModel: ObservableObject{
         completion()
         }
     }
+    private var cancellables = Set<AnyCancellable>()
+    
+    private func startObserving() {
+        $searchString
+            .debounce(for: 0.25, scheduler: DispatchQueue.main)
+            .removeDuplicates()
+            .sink { _ in
+                Task { [weak self] in self?.getStockAsync(ticker:self?.searchString ?? "", completion:{}) }
+
+                print("sink was triggered")
+            }
+            .store(in: &cancellables)
+        
+//        $searchString
+//            .filter { $0.isEmpty }
+//            .sink { [weak self] _ in self?.phase = .initial }
+//            .store(in: &cancellables)
+    }
+    
+    
 }

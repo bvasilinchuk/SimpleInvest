@@ -36,3 +36,8 @@ struct Stock: Identifiable, Decodable, Equatable{
     }
 }
 
+
+extension Stock{
+    static var previewStocks: [Stock] = [Stock(currentPrice: 174.5, quantity: 2, name: "Apple", ticker: "AAPL", description: "Test description", currency: "USD", marketCap: 2350000, peRatio: 12.5, dividendsPastYear: 3.4, dividendYield: 0.03, fiftyTwoWeekHigh: 190, fiftyTwoWeekLow: 140, averagePrice: 160), Stock(currentPrice: 112, quantity: 1, name: "Google", ticker: "GOOGL", description: "Google description", currency: "USD", marketCap: 1190000, peRatio: 22, dividendsPastYear: 0, dividendYield: 0, fiftyTwoWeekHigh: 123, fiftyTwoWeekLow: 80, averagePrice: 120)]
+    
+}

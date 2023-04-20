@@ -53,7 +53,14 @@ struct LoginView: View {
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
+        LoginView().environmentObject({ () -> AuthViewModel in
+                            let envObj = AuthViewModel()
+                            return envObj
+                        }() )
+        .environmentObject({ () -> StocksViewModel in
+            let envObj = StocksViewModel(email: "test@mail.com",  stocks: Stock.previewStocks)
+                            return envObj
+                        }() )
     }
 }
 

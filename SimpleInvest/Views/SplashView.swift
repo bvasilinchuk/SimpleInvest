@@ -13,7 +13,7 @@ struct SplashView: View {
     var body: some View {
         if viewModel.showMainView {
             let email = viewModel.user?.email ?? ""
-            MainTabView(stocksViewModel: StocksViewModel(email: email))
+            MainTabView(stocksViewModel: StocksViewModel(email: email, stocks: [Stock]()))
         } else{
             ZStack{
                 Color("blue")

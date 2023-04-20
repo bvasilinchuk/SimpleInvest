@@ -10,7 +10,7 @@ import SwiftUI
 struct MainTabView: View {
     @EnvironmentObject private var authModel: AuthViewModel
     @StateObject var stocksViewModel: StocksViewModel
-    @StateObject var searchViewModel = SearchStockViewModel()
+    @StateObject var searchViewModel = SearchStockViewModel(matchedStocks: [])
     var body: some View {
         Group{
             if authModel.user != nil {

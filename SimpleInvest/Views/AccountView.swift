@@ -25,6 +25,13 @@ struct AccountView: View {
 
 struct AccountView_Previews: PreviewProvider {
     static var previews: some View {
-        AccountView()
+        AccountView().environmentObject({ () -> AuthViewModel in
+                            let envObj = AuthViewModel()
+                            return envObj
+                        }() )
+        .environmentObject({ () -> StocksViewModel in
+            let envObj = StocksViewModel(email: "test@mail.com",  stocks: Stock.previewStocks)
+                            return envObj
+                        }() )
     }
 }
