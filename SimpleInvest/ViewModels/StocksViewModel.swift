@@ -66,7 +66,7 @@ class StocksViewModel: ObservableObject {
                 let stockSummaryFromYahoo = try? await fetchStockSummaryYahoo(ticker: ticker)
                 if let stock = stockFromYahoo?.data?[0]{
                     if let stockSummary = stockSummaryFromYahoo?.data?[0].summaryProfile{
-                        let stockToIncert = Stock(currentPrice: stock.regularMarketPrice ?? 0.0, quantity: quantity, name: name, ticker: ticker, description: stockSummary.longBusinessSummary ?? "", currency: stock.financialCurrency ?? "", marketCap: stock.marketCap ?? 0.0, peRatio: stock.trailingPE ?? 0.0, dividendsPastYear: stock.trailingAnnualDividendRate ?? 0.0, dividendYield: stock.trailingAnnualDividendYield ?? 0.0, fiftyTwoWeekHigh: stock.fiftyTwoWeekHigh ?? 0.0, fiftyTwoWeekLow: stock.fiftyTwoWeekLow ?? 0.0, averagePrice: averagePrice)
+                        let stockToIncert = Stock(currentPrice: stock.regularMarketPrice ?? 0.0, quantity: quantity, name: name, ticker: ticker, description: stockSummary.longBusinessSummary ?? "", currency: stock.financialCurrency ?? "", marketCap: stock.marketCap ?? 0.0, peRatio: stock.trailingPE ?? 0.0, dividendsPastYear: stock.trailingAnnualDividendRate ?? 0.0, dividendYield: stock.trailingAnnualDividendYield ?? 0.0, fiftyTwoWeekHigh: stock.fiftyTwoWeekHigh ?? 0.0, fiftyTwoWeekLow: stock.fiftyTwoWeekLow ?? 0.0, averagePrice: averagePrice, marketCapText: stock.mktCapText)
                         print("stock \(stockToIncert.ticker) is ready to be added to array")
                         addOrUpdateStockFirebase(stock: stockToIncert)
                         fetchStocks()
@@ -116,8 +116,9 @@ class StocksViewModel: ObservableObject {
                     let fiftyTwoWeekLow = data["fiftyTwoWeekLow"] as? Double ?? 0
                     let averagePrice = data["averagePrice"] as? Double ?? 0
                     let documentId = snapshot.documentID
+                    let marketCapText = data["marketCapText"] as? String ?? ""
                     
-                    let stock = Stock(firebaseId: documentId, currentPrice: currentPrice, quantity: quantity, name: name, ticker: ticker, description: description, currency: currency, marketCap: marketCap, peRatio: peRatio, dividendsPastYear: dividendsPastYear, dividendYield: dividendYield, fiftyTwoWeekHigh: fiftyTwoWeekHigh, fiftyTwoWeekLow: fiftyTwoWeekLow, averagePrice: averagePrice)
+                    let stock = Stock(firebaseId: documentId, currentPrice: currentPrice, quantity: quantity, name: name, ticker: ticker, description: description, currency: currency, marketCap: marketCap, peRatio: peRatio, dividendsPastYear: dividendsPastYear, dividendYield: dividendYield, fiftyTwoWeekHigh: fiftyTwoWeekHigh, fiftyTwoWeekLow: fiftyTwoWeekLow, averagePrice: averagePrice, marketCapText: marketCapText)
                     if !self.stocks.contains(where: { $0.name == name }) {
                         // Checking if stock already exists in array, if not, append the new stock object to the array
                         self.stocks.append(stock)
@@ -155,7 +156,7 @@ extension StocksViewModel{
     
     func addStockFirebase(stock: Stock){
         let ref = dbReference.collection(email)
-        ref.addDocument(data: ["currentPrice": stock.currentPrice, "quantity": stock.quantity, "name": stock.name, "ticker": stock.ticker, "description": stock.description, "currency": stock.currency, "marketCap": stock.marketCap, "peRatio": stock.peRatio, "dividendsPastYear": stock.dividendsPastYear, "dividendYield": stock.dividendYield, "fiftyTwoWeekHigh": stock.fiftyTwoWeekHigh, "fiftyTwoWeekLow": stock.fiftyTwoWeekLow, "averagePrice": stock.averagePrice]) { error in
+        ref.addDocument(data: ["currentPrice": stock.currentPrice, "quantity": stock.quantity, "name": stock.name, "ticker": stock.ticker, "description": stock.description, "currency": stock.currency, "marketCap": stock.marketCap, "peRatio": stock.peRatio, "dividendsPastYear": stock.dividendsPastYear, "dividendYield": stock.dividendYield, "fiftyTwoWeekHigh": stock.fiftyTwoWeekHigh, "marketCapText": stock.marketCapText, "fiftyTwoWeekLow": stock.fiftyTwoWeekLow, "averagePrice": stock.averagePrice]) { error in
             if let error = error{
                 print(error.localizedDescription)
             }
@@ -164,7 +165,7 @@ extension StocksViewModel{
     
     func UpdateStockFirebase(stock: Stock){
         let ref = dbReference.collection(email).document(stock.firebaseId)
-        ref.setData(["currentPrice": stock.currentPrice, "quantity": stock.quantity, "name": stock.name, "ticker": stock.ticker, "description": stock.description, "currency": stock.currency, "marketCap": stock.marketCap, "peRatio": stock.peRatio, "dividendsPastYear": stock.dividendsPastYear, "dividendYield": stock.dividendYield, "fiftyTwoWeekHigh": stock.fiftyTwoWeekHigh, "fiftyTwoWeekLow": stock.fiftyTwoWeekLow, "averagePrice": stock.averagePrice]) { error in
+        ref.setData(["currentPrice": stock.currentPrice, "quantity": stock.quantity, "name": stock.name, "ticker": stock.ticker, "description": stock.description, "currency": stock.currency, "marketCap": stock.marketCap, "peRatio": stock.peRatio, "dividendsPastYear": stock.dividendsPastYear, "dividendYield": stock.dividendYield, "fiftyTwoWeekHigh": stock.fiftyTwoWeekHigh, "marketCapText": stock.marketCapText, "fiftyTwoWeekLow": stock.fiftyTwoWeekLow, "averagePrice": stock.averagePrice]) { error in
             if let error = error{
                 print(error.localizedDescription)
             }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct StockView: View {
     var stock: Stock
-    @StateObject var chartViewModel: ChartViewModel
+    @ObservedObject var chartViewModel: ChartViewModel
     @State var isExpanded = false
     @State var selectedRange: ChartRange = .oneDay
     var body: some View {
@@ -84,6 +84,12 @@ struct StockView: View {
                         Text("Market Cap:")
                         Spacer()
                         Text("\(stock.marketCap, specifier: "%.2f") $")
+                            .bold()
+                    }
+                    HStack{
+                        Text("Market Cap text")
+                        Spacer()
+                        Text(stock.marketCapText)
                             .bold()
                     }
                     HStack{

@@ -27,11 +27,7 @@ class ChartViewModel: ObservableObject{
     
     @Published var selectedX: (any Plottable)?
     
-//    func dateToString(_ date: Date) -> String {
-//        let dateFMT = DateFormatter()
-//        dateFMT.dateFormat = "dd MMM yyyy"
-//        return String(format: "%@", dateFMT.string(from: date))
-//    }
+
 //
     private let dateFormatter = DateFormatter()
     

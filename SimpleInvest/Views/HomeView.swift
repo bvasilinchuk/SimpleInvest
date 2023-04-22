@@ -12,6 +12,7 @@ struct HomeView: View {
     @EnvironmentObject var stocksViewModel: StocksViewModel
     @EnvironmentObject var searchViewModel: SearchStockViewModel
     @State var showSearchView = false
+    @State var showStockView = false
     var body: some View {
         NavigationView{
         VStack{
@@ -39,8 +40,8 @@ struct HomeView: View {
             .background(Color.secondary.opacity(0.3))
             .cornerRadius(10)
             List { ForEach(stocksViewModel.stocks){stock in
-                NavigationLink(destination: StockView(stock: stock, chartViewModel: ChartViewModel(stock: stock)), label: {ListRowView(name: stock.name, price: stock.currentPrice, totalPrice: stock.totalPrice, ticker: stock.ticker, quantity: stock.quantity, profitCash: stock.averageProfitCash, profitPercent: stock.averageProfitPercent, placement: .home)})
-                
+                NavigationLink(destination: StockTabView(stock: stock, chartViewModel: ChartViewModel(stock: stock)), label: {ListRowView(name: stock.name, price: stock.currentPrice, totalPrice: stock.totalPrice, ticker: stock.ticker, quantity: stock.quantity, profitCash: stock.averageProfitCash, profitPercent: stock.averageProfitPercent, placement: .home)})
+                    
             }
             .onDelete { indexSet in
                 stocksViewModel.deleteFromFirebase(indexSet: indexSet)

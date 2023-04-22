@@ -20,6 +20,16 @@ struct StockQuoteYahoo: Codable {
     let trailingAnnualDividendYield: Double?
     let fiftyTwoWeekLow: Double?
     let fiftyTwoWeekHigh: Double?
+    let regularMarketChange: Double?
+    let postMarketPrice: Double?
+    let postMarketChange: Double?
+    let regularMarketDayHigh: Double?
+    let regularMarketOpen: Double?
+    let regularMarketDayLow: Double?
+    let regularMarketVolume: Double?
+    let averageDailyVolume3Month: Double?
+    let epsTrailingTwelveMonths: Double?
+    
 }
 
 struct StockQuoteYahooResponse: Decodable {
@@ -48,5 +58,70 @@ struct StockQuoteYahooResponse: Decodable {
             self.data = nil
             self.error = nil
         }
+    }
+}
+
+
+
+extension StockQuoteYahoo{
+    var regularPriceText: String? {
+        Utils.format(value: regularMarketPrice)
+    }
+    
+    var regularDiffText: String? {
+        guard let text = Utils.format(value: regularMarketChange) else { return nil }
+        return text.hasPrefix("-") ? text : "+\(text)"
+    }
+    
+    var postPriceText: String? {
+        Utils.format(value: postMarketPrice)
+    }
+    
+    var postPriceDiffText: String? {
+        guard let text = Utils.format(value: postMarketChange) else { return nil }
+        return text.hasPrefix("-") ? text : "+\(text)"
+    }
+    
+    var highText: String {
+        Utils.format(value: regularMarketDayHigh) ?? "-"
+    }
+    
+    var openText: String {
+        Utils.format(value: regularMarketOpen) ?? "-"
+    }
+    
+    var lowText: String {
+        Utils.format(value: regularMarketDayLow) ?? "-"
+    }
+    
+    var volText: String {
+        regularMarketVolume?.formatUsingAbbrevation() ?? "-"
+    }
+    
+    var peText: String {
+        Utils.format(value: trailingPE) ?? "-"
+    }
+    
+    var mktCapText: String {
+        marketCap?.formatUsingAbbrevation() ?? "-"
+    }
+    
+    var fiftyTwoWHText: String {
+        Utils.format(value: fiftyTwoWeekHigh) ?? "-"
+    }
+    
+    var fiftyTwoWLText: String {
+        Utils.format(value: fiftyTwoWeekLow) ?? "-"
+    }
+    
+    var avgVolText: String {
+        averageDailyVolume3Month?.formatUsingAbbrevation() ?? "-"
+    }
+    
+    var yieldText: String { "-" }
+    var betaText: String { "-" }
+    
+    var epsText: String {
+        Utils.format(value: epsTrailingTwelveMonths) ?? "-"
     }
 }

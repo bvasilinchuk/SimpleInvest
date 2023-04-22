@@ -10,6 +10,7 @@ import Combine
 @MainActor
 class SearchStockViewModel: ObservableObject{
     @Published var matchedStocks: [SearchStock] = []
+    @Published var matchedNews: [SearchNews] = []
     @Published var searchString = ""
     let stocksAPI = StocksAPI()
     init(matchedStocks: [SearchStock], searchString: String = "") {
@@ -18,16 +19,17 @@ class SearchStockViewModel: ObservableObject{
         startObserving()
     }
 
-    func fetchStocks(ticker: String) async throws -> [SearchStock]{
+    func fetchStocks(ticker: String) async throws -> ([SearchStock], [SearchNews]){
         guard let url = URL(string:"https://query1.finance.yahoo.com/v1/finance/search?q=\(ticker)")else {
             throw APIServiceError.invalidURL
         }
         let (response, statusCode): (SearchStockResponse, Int) = try await stocksAPI.fetch(url: url)
-        guard let response = response.stocks else{
+        guard let responseStock = response.stocks, let responseNews = response.news else{
             throw APIServiceError.httpStatusCodeFailed(statusCode: statusCode, error: response.error)
         }
         print("stockData fetched with status code \(statusCode)")
-        return response
+        print(responseNews.first?.title ?? "Nothing from news")
+        return (responseStock, responseNews)
     }
     
     func clearList(){
@@ -44,8 +46,10 @@ class SearchStockViewModel: ObservableObject{
             do{
                 let stock = try? await fetchStocks(ticker: ticker)
                 if let stock = stock {
-                    let result = stock.filter({$0.name != nil})
+                    let result = stock.0.filter({$0.name != nil})
+                    let news = stock.1
                     matchedStocks = Array(result.prefix(6))
+                    matchedNews = news
                 }
             }
             
@@ -65,12 +69,12 @@ class SearchStockViewModel: ObservableObject{
                 print("sink was triggered")
             }
             .store(in: &cancellables)
-        
-//        $searchString
-//            .filter { $0.isEmpty }
-//            .sink { [weak self] _ in self?.phase = .initial }
-//            .store(in: &cancellables)
     }
+    private let selectedValueDateFormatter = {
+        let df = DateFormatter()
+        df.dateStyle = .medium
+        return df
+    }()
     
     
 }
