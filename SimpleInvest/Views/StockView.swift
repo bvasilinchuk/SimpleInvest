@@ -13,108 +13,107 @@ struct StockView: View {
     @State var isExpanded = false
     @State var selectedRange: ChartRange = .oneDay
     var body: some View {
-        ScrollView{
-            VStack{
-                ZStack{
-                    HStack{
-                        VStack{
-                            Text(stock.name)
-                                .font(.title3.bold())
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .truncationMode(.tail)
-                                .lineLimit(1)
-                            Text(stock.ticker)
-                                .font(.caption)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                        }.frame(maxWidth: UIScreen.main.bounds.width / 2)
-                        Spacer()
-                        VStack{
-                            Text("\(stock.currentPrice, specifier: "%.2f") $")
-                                .font(.title3.bold())
-                            Text("\(stock.averageProfitCash>0 ? "+":"")\(stock.averageProfitCash, specifier: "%.2f")$ · \(stock.averageProfitPercent, specifier: "%.2f")%")
-                                .lossProfitColor(value: stock.averageProfitCash)
-                                .font(.caption)
-                        }
-                    }
-                    .opacity(chartViewModel.selectedXOpacity)
+        VStack{
+            ZStack{
+                HStack{
                     VStack{
-                        Text(chartViewModel.selectedXDateAndPriceText?.date ?? "")
-                            .font(.caption)
-                        Text(chartViewModel.selectedXDateAndPriceText?.price ?? "")
+                        Text(stock.name)
                             .font(.title3.bold())
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .truncationMode(.tail)
+                            .lineLimit(1)
+                        Text(stock.ticker)
+                            .font(.caption)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }.frame(maxWidth: UIScreen.main.bounds.width / 2)
+                    Spacer()
+                    VStack{
+                        Text("\(stock.currentPrice ?? 0, specifier: "%.2f") $")
+                            .font(.title3.bold())
+                        Text("\(stock.averageProfitCash ?? 0>0 ? "+":"")\(stock.averageProfitCash ?? 0, specifier: "%.2f")$ · \(stock.averageProfitPercent ?? 0, specifier: "%.2f")%")
+                            .lossProfitColor(value: stock.averageProfitCash ?? 0)
+                            .font(.caption)
                     }
                 }
-                .padding()
-                
+                .opacity(chartViewModel.selectedXOpacity)
+                VStack{
+                    Text(chartViewModel.selectedXDateAndPriceText?.date ?? "")
+                        .font(.caption)
+                    Text(chartViewModel.selectedXDateAndPriceText?.price ?? "")
+                        .font(.title3.bold())
+                }
+            }
+            .padding()
+            ScrollView{
                 chartView.frame(minHeight: 220)
                     .padding()
-            
-//                if let chart = chartViewModel.chart{
-//                    ChartView(data: chart, chartViewModel: chartViewModel)
-//                        .padding()
-//                }
+                
                 DateRangePickerView(selectedRange: $chartViewModel.selectedRange)
-                DisclosureContainerView{
-                    DisclosureGroup("Company description", isExpanded: $isExpanded) {
-                        Text(stock.description)
-                            .font(.callout)
-                            .padding()
-                    }
-                    .padding()
-                    .onTapGesture {
-                        withAnimation {
-                            self.isExpanded.toggle()
-                        }
-                    }
-                }
-                Group{
-                    HStack{
-                        Text("Yearly dividend:")
-                        Spacer()
-                        Text("\(stock.dividendsPastYear, specifier: "%.2f") $")
-                            .bold()
-                    }
-                    HStack{
-                        Text("Dividend yield:")
-                        Spacer()
-                        Text("\(stock.dividendYield*100, specifier: "%.2f") %")
-                            .bold()
-                    }
-                    HStack{
-                        Text("Market Cap:")
-                        Spacer()
-                        Text("\(stock.marketCap, specifier: "%.2f") $")
-                            .bold()
-                    }
-                    HStack{
-                        Text("Market Cap text")
-                        Spacer()
-                        Text(stock.marketCapText)
-                            .bold()
-                    }
-                    HStack{
-                        Text("P/E:")
-                        Spacer()
-                        Text("\(stock.peRatio, specifier: "%.2f")")
-                            .bold()
-                    }
-                    HStack{
-                        Text("52week low")
-                        Spacer()
-                        Text("\(stock.fiftyTwoWeekLow, specifier: "%.2f")")
-                            .bold()
-                    }
-                    HStack{
-                        Text("52week high")
-                        Spacer()
-                        Text("\(stock.fiftyTwoWeekHigh, specifier: "%.2f")")
-                            .bold()
-                    }
-                }
-                .font(.body)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal)
                 Spacer()
+                Divider()
+                StockPriceRangeView(currentPrice: stock.currentPrice ?? 0, highestPrice: stock.fiftyTwoWeekHigh ?? 0, lowestPrice: stock.fiftyTwoWeekLow ?? 0)
+                    .frame(minHeight: UIScreen.main.bounds.height/10)
+                    .padding()
+                
+                //                HStack {
+                //                    VStack(alignment: .leading){
+                //                        VStack(alignment: .leading){
+                //                            Text("Dividend yield")
+                //                                .foregroundColor(.secondary)
+                //                                .font(.caption)
+                //                            Text("\((stock.dividendYield ?? 0)*100, specifier: "%.2f") %")
+                //                                .bold()
+                //                        }
+                //                        .padding(.bottom, 5)
+                //                        VStack(alignment: .leading){
+                //                            Text("Market Cap")
+                //                                .foregroundColor(.secondary)
+                //                                .font(.caption)
+                //                            Text(stock.marketCapText ?? "-")
+                //                                .bold()
+                //                        }
+                //                        .padding(.bottom, 5)
+                //                        VStack(alignment: .leading){
+                //                            Text("P/E (TTM)")
+                //                                .foregroundColor(.secondary)
+                //                                .font(.caption)
+                //                            Text("\((stock.peRatio ?? 0), specifier: "%.2f")")
+                //                                .bold()
+                //                        }
+                //
+                //                    }
+                //                        .frame(width: UIScreen.main.bounds.width/2)
+                //                    VStack(alignment: .leading){
+                //                        VStack(alignment: .leading){
+                //                            Text("Dividend yield")
+                //                                .foregroundColor(.secondary)
+                //                                .font(.caption)
+                //                            Text("\((stock.dividendYield ?? 0)*100, specifier: "%.2f") %")
+                //                                .bold()
+                //                        }
+                //                        .padding(.bottom, 5)
+                //                        VStack(alignment: .leading){
+                //                            Text("Market Cap")
+                //                                .foregroundColor(.secondary)
+                //                                .font(.caption)
+                //                            Text(stock.marketCapText ?? "-")
+                //                                .bold()
+                //                        }
+                //                        .padding(.bottom, 5)
+                //                        VStack(alignment: .leading){
+                //                            Text("P/E (TTM)")
+                //                                .foregroundColor(.secondary)
+                //                                .font(.caption)
+                //                            Text("\((stock.peRatio ?? 0), specifier: "%.2f")")
+                //                                .bold()
+                //                        }
+                //                    }
+                //                        .frame(width: UIScreen.main.bounds.width/2)
+                //                }
+                ContentView(stock: stock)
+                //                .padding(.top)
+                //                .padding(.top)
+                //                .padding(.top)
             }
         }
         .task(id: chartViewModel.selectedRange) {

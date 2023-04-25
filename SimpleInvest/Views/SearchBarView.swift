@@ -92,15 +92,16 @@ struct SearchBar: View {
 
 
 
-struct SearchBarView_Previews: PreviewProvider {
-    static var previews: some View {
-        SearchBarView().environmentObject({ () -> SearchStockViewModel in
-            let envObj = SearchStockViewModel(matchedStocks: [SearchStock(shortname: "Apple", type: nil, symbol: "AAPL", name: "Apple")])
-                            return envObj
-                        }() )
-        .environmentObject({ () -> StocksViewModel in
-            let envObj = StocksViewModel(email: "test@mail.com",  stocks: Stock.previewStocks)
-                            return envObj
-                        }() )
-    }
-}
+//struct SearchBarView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SearchBarView().environmentObject({ () -> SearchStockViewModel in
+//            let envObj = SearchStockViewModel(matchedStocks: [SearchStock(shortname: "Apple", type: nil, symbol: "AAPL", name: "Apple")])
+//                            return envObj
+//                        }() )
+//        .environmentObject({ () -> StocksViewModel in
+//            let envObj = StocksViewModel(email: "test@mail.com",  stocks: Stock.previewStocks)
+//                            return envObj
+//                        }() )
+//    }
+//}
+

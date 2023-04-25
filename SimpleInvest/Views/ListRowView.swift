@@ -12,7 +12,7 @@ struct ListRowView: View {
     var price: Double?
     var totalPrice: Double?
     var ticker: String
-    var quantity: Double?
+    var quantity: Int?
     var profitCash: Double?
     var profitPercent: Double?
     let placement: Place
@@ -33,8 +33,11 @@ struct ListRowView: View {
                     Text("\(Int(quantity ?? 0)) · \(price ?? 0, specifier: "%.2f") $")
                         .font(.caption)
                         .frame(maxWidth: .infinity, alignment: .leading)
+                        .foregroundColor(.secondary)
                 } else{Text(ticker).font(.caption)
-                    .frame(maxWidth: .infinity, alignment: .leading)}
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .foregroundColor(.secondary)
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             Spacer()

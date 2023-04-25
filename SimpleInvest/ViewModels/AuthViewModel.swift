@@ -18,7 +18,7 @@ final class AuthViewModel: ObservableObject {
         }
     }
     init(){
-            listenToAuthState()
+        listenToAuthState()
     }
     var error: Error?
     @Published var hasError = false
@@ -26,19 +26,20 @@ final class AuthViewModel: ObservableObject {
     
     func login(email: String, password: String, completion: @escaping() -> ()) {
         isLoading = true
-            Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
-                if error != nil {
-                    self.error = error
-                    print(error?.localizedDescription ?? "")
-                    self.hasError = true
-                } else {
-                    print("success")
-                    completion()
-                }
-                self.isLoading = false
+        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+            if error != nil {
+                self.error = error
+                print(error?.localizedDescription ?? "")
+                self.hasError = true
+                return
+            } else {
+                print("success")
+                completion()
             }
-        
+            self.isLoading = false
         }
+        
+    }
     
     func listenToAuthState() {
         Auth.auth().addStateDidChangeListener { [weak self] _, user in
@@ -77,7 +78,28 @@ final class AuthViewModel: ObservableObject {
         do {
             try Auth.auth().signOut()
         } catch let signOutError as NSError {
+            error = signOutError
+            hasError = true
             print("Error signing out: %@", signOutError)
+        }
+    }
+    
+    func deleteUser(completion: @escaping ()->() ){
+        print("delete user initiated")
+        Task{
+            do{
+                user?.delete(){ error in
+                    if let error = error {
+                        self.error = error
+                        self.hasError = true
+                        print("Error deleting user: \(error.localizedDescription)")
+                        return
+                    } else {
+                        print("User deleted successfully!")
+                        completion()
+                    }
+                }
+            }
         }
     }
 }

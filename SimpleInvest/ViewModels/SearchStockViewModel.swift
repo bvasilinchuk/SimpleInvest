@@ -47,16 +47,27 @@ class SearchStockViewModel: ObservableObject{
                 let stock = try? await fetchStocks(ticker: ticker)
                 if let stock = stock {
                     let result = stock.0.filter({$0.name != nil})
-                    let news = stock.1
                     matchedStocks = Array(result.prefix(6))
-                    matchedNews = news
                 }
             }
-            
         }
         completion()
         }
     }
+    
+    func getNewsAsync(ticker: String) {
+        print("getNewsAsync works for ticker:\(ticker)")
+        Task{
+            do{
+                let stock = try? await fetchStocks(ticker: ticker)
+                if let stock = stock {
+                    let news = stock.1
+                    matchedNews = news
+                }
+            }
+        }
+    }
+    
     private var cancellables = Set<AnyCancellable>()
     
     private func startObserving() {

@@ -60,11 +60,11 @@ struct AddNewAssetView: View {
     }
 }
 
-struct AddNewAssetView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddNewAssetView(viewModel: StocksViewModel(email: "test@mail.com", stocks: Stock.previewStocks), searchViewModel: SearchStockViewModel(matchedStocks: []), isShowingAddNewAsset: .constant(true), currentPrice: 5, quantity: 5, name: "Apple", ticker: "AAPL", averagePrice: 20, isloading: false).environmentObject({ () -> AuthViewModel in
-            let envObj = AuthViewModel()
-            return envObj
-        }() )
-    }
-}
+//struct AddNewAssetView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AddNewAssetView(viewModel: StocksViewModel(email: "test@mail.com", stocks: Stock.previewStocks), searchViewModel: SearchStockViewModel(matchedStocks: []), isShowingAddNewAsset: .constant(true), currentPrice: 5, quantity: 5, name: "Apple", ticker: "AAPL", averagePrice: 20, isloading: false).environmentObject({ () -> AuthViewModel in
+//            let envObj = AuthViewModel()
+//            return envObj
+//        }() )
+//    }
+//}

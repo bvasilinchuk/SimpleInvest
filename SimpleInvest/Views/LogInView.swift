@@ -26,7 +26,9 @@ struct LoginView: View {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.horizontal)
             Button(action: {
-                authViewModel.login(email: email, password: password, completion: {stocksViewModel.email = authViewModel.user?.email ?? ""})
+                authViewModel.login(email: email, password: password, completion: {stocksViewModel.email = authViewModel.user?.email ?? ""
+                    stocksViewModel.initialFetch()
+                })
             }, label: {if authViewModel.isLoading{
                 ProgressView()
                             } else{
@@ -51,16 +53,16 @@ struct LoginView: View {
     }
 }
 
-struct LoginView_Previews: PreviewProvider {
-    static var previews: some View {
-        LoginView().environmentObject({ () -> AuthViewModel in
-                            let envObj = AuthViewModel()
-                            return envObj
-                        }() )
-        .environmentObject({ () -> StocksViewModel in
-            let envObj = StocksViewModel(email: "test@mail.com",  stocks: Stock.previewStocks)
-                            return envObj
-                        }() )
-    }
-}
+//struct LoginView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        LoginView().environmentObject({ () -> AuthViewModel in
+//                            let envObj = AuthViewModel()
+//                            return envObj
+//                        }() )
+//        .environmentObject({ () -> StocksViewModel in
+//            let envObj = StocksViewModel(email: "test@mail.com",  stocks: Stock.previewStocks)
+//                            return envObj
+//                        }() )
+//    }
+//}
 

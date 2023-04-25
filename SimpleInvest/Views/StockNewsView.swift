@@ -28,6 +28,7 @@ struct StockNewsView: View {
                                 .cornerRadius(10)
                             VStack(alignment: .leading){
                                 Text(title)
+                                    .lineLimit(3).truncationMode(.tail)
                                     .multilineTextAlignment(.leading)
                                     .font(.title3.bold())
                                     .foregroundColor(.primary)
@@ -50,7 +51,7 @@ struct StockNewsView: View {
                 }
             }
             }
-        .onAppear(perform: {searchViewMidel.getStockAsync(ticker: stock.ticker, completion: {})})
+        .onAppear(perform: {searchViewMidel.getNewsAsync(ticker: stock.ticker)})
         .onDisappear(perform: {searchViewMidel.matchedNews.removeAll()})
     }
 }

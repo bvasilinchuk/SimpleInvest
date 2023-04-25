@@ -29,7 +29,10 @@ struct StockQuoteYahoo: Codable {
     let regularMarketVolume: Double?
     let averageDailyVolume3Month: Double?
     let epsTrailingTwelveMonths: Double?
-    
+    let priceToBook: Double?
+    let averageAnalystRating: String?
+    let dividendDate: Date?
+    let symbol: String
 }
 
 struct StockQuoteYahooResponse: Decodable {
@@ -116,6 +119,14 @@ extension StockQuoteYahoo{
     
     var avgVolText: String {
         averageDailyVolume3Month?.formatUsingAbbrevation() ?? "-"
+    }
+    
+    var divRateText: String{
+        trailingAnnualDividendRate?.formatUsingAbbrevation() ?? "-"
+    }
+    
+    var priceToBookText: String{
+        priceToBook?.formatUsingAbbrevation() ?? "-"
     }
     
     var yieldText: String { "-" }

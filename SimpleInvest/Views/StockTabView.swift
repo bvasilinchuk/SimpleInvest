@@ -11,11 +11,14 @@ struct StockTabView: View {
     var stock: Stock
     @StateObject var chartViewModel: ChartViewModel
     @State private var selection = 0
+    @State var showToolBar = false
     @Environment(\.dismiss) private var dismiss
     var body: some View {
         VStack{
             VStack{HStack{
-                Button(action: {dismiss()}, label: {Label("Back", systemImage: "chevron.backward")})
+                Button(action: {dismiss()
+                    showToolBar = true
+                }, label: {Label("Back", systemImage: "chevron.backward")})
                     .font(.title)
                     .labelStyle(.iconOnly)
                     .padding(.horizontal)
@@ -47,6 +50,7 @@ struct StockTabView: View {
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         }
+        .toolbar(showToolBar ? .visible : .hidden, for: .tabBar)
         .navigationBarBackButtonHidden(true)
     }
 }
