@@ -12,7 +12,6 @@ struct AddNewAssetView: View {
 @ObservedObject var searchViewModel: SearchStockViewModel
     @EnvironmentObject var authViewModel: AuthViewModel
     @Environment(\.dismiss) private var dismiss
-    @Binding var searchText: String
     @Binding var isShowingAddNewAsset: Bool
     @State var currentPrice: Double?
     @State var quantity: Double?
@@ -33,7 +32,6 @@ struct AddNewAssetView: View {
                 Button(action: {
                     print("1. \(String.timestamp())")
                     viewModel.getStockAsync(ticker: ticker, name: name, quantity: quantity ?? 0, averagePrice: averagePrice ?? 0, completion: {
-                        searchText = ""
                         searchViewModel.clearList()
                         print("Before dismiss \(String.timestamp())")
     //                        dismiss()
@@ -64,7 +62,9 @@ struct AddNewAssetView: View {
 
 //struct AddNewAssetView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        AddNewAssetView(viewModel: StocksViewModel(), searchViewModel: SearchStockViewModel())
-//    }ChildView
+//        AddNewAssetView(viewModel: StocksViewModel(email: "test@mail.com", stocks: Stock.previewStocks), searchViewModel: SearchStockViewModel(matchedStocks: []), isShowingAddNewAsset: .constant(true), currentPrice: 5, quantity: 5, name: "Apple", ticker: "AAPL", averagePrice: 20, isloading: false).environmentObject({ () -> AuthViewModel in
+//            let envObj = AuthViewModel()
+//            return envObj
+//        }() )
+//    }
 //}
-

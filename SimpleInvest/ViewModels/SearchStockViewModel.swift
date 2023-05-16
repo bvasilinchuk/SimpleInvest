@@ -6,39 +6,35 @@
 //
 
 import Foundation
+import Combine
 @MainActor
 class SearchStockViewModel: ObservableObject{
-//    @Published var matchedStocks: [SearchResult] = []
     @Published var matchedStocks: [SearchStock] = []
-    
-    //Welcome to Alpha Vantage! Your API key is: 3HZXZ31II44BDOPT. Please record this API key at a safe place for future data access.
-    
-    func fetchStocks(ticker: String) async throws ->
-//    [SearchResult]
-    [SearchStock]
-    {
-//        guard let url = URL(string: "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=\(ticker)&apikey=3HZXZ31II44BDOPT")
-        guard let url = URL(string:"https://query1.finance.yahoo.com/v1/finance/search?q=\(ticker)")else {
-//            return [SearchResult]()
-            print("could not reach url")
-            return [SearchStock]()
+    @Published var matchedNews: [SearchNews] = []
+    @Published var searchString = ""
+    let stocksAPI = StocksAPI()
+    init(matchedStocks: [SearchStock], searchString: String = "") {
+        self.matchedStocks = matchedStocks
+        self.searchString = searchString
+        startObserving()
+    }
 
+    func fetchStocks(ticker: String) async throws -> ([SearchStock], [SearchNews]){
+        guard let url = URL(string:"https://query1.finance.yahoo.com/v1/finance/search?q=\(ticker)")else {
+            throw APIServiceError.invalidURL
         }
-            async let (data, _) = await URLSession.shared.data(from: url)
-//            let response = try await JSONDecoder().decode(ResponseSearch.self, from: data)
-        let response = try await JSONDecoder().decode(SearchStockResponse.self, from: data)
-        if let response = response.stocks{
-            print("SearchStock success response is \(response)")
-            return response
-        } else {
-            print("Could not unwrap optional\(try await String(data: data, encoding: .utf8) ?? "no value")")
-            return [SearchStock]()
-            
+        let (response, statusCode): (SearchStockResponse, Int) = try await stocksAPI.fetch(url: url)
+        guard let responseStock = response.stocks, let responseNews = response.news else{
+            throw APIServiceError.httpStatusCodeFailed(statusCode: statusCode, error: response.error)
         }
+        print("stockData fetched with status code \(statusCode)")
+        print(responseNews.first?.title ?? "Nothing from news")
+        return (responseStock, responseNews)
     }
     
     func clearList(){
         matchedStocks = []
+        searchString = ""
     }
     
     func getStockAsync(ticker: String, completion: @escaping () -> ()) {
@@ -50,17 +46,46 @@ class SearchStockViewModel: ObservableObject{
             do{
                 let stock = try? await fetchStocks(ticker: ticker)
                 if let stock = stock {
-                    let result = stock.filter({$0.name != nil})
+                    let result = stock.0.filter({$0.name != nil})
                     matchedStocks = Array(result.prefix(6))
                 }
             }
-            
         }
         completion()
         }
     }
     
+    func getNewsAsync(ticker: String) {
+        print("getNewsAsync works for ticker:\(ticker)")
+        Task{
+            do{
+                let stock = try? await fetchStocks(ticker: ticker)
+                if let stock = stock {
+                    let news = stock.1
+                    matchedNews = news
+                }
+            }
+        }
+    }
     
-    //Functions that will use Yahoo Finance API
+    private var cancellables = Set<AnyCancellable>()
+    
+    private func startObserving() {
+        $searchString
+            .debounce(for: 0.25, scheduler: DispatchQueue.main)
+            .removeDuplicates()
+            .sink { _ in
+                Task { [weak self] in self?.getStockAsync(ticker:self?.searchString ?? "", completion:{}) }
+
+                print("sink was triggered")
+            }
+            .store(in: &cancellables)
+    }
+    private let selectedValueDateFormatter = {
+        let df = DateFormatter()
+        df.dateStyle = .medium
+        return df
+    }()
+    
     
 }

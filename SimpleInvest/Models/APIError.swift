@@ -23,7 +23,7 @@ public enum APIServiceError: CustomNSError {
     case invalidResponseType
     case httpStatusCodeFailed(statusCode: Int, error: ErrorResponse?)
     
-    public static var errorDomain: String { "XCAStocksAPI" }
+    public static var errorDomain: String { "StocksAPI" }
     public var errorCode: Int {
         switch self {
         case .invalidURL: return 1
@@ -41,9 +41,9 @@ public enum APIServiceError: CustomNSError {
             text = "Invalid Response Type"
         case let .httpStatusCodeFailed(statusCode, error):
             if let error = error {
-                text = "Error: Status Code\(error.code), message: \(error.description)"
+                text = "Error: Status Code: \(error.code), message: \(error.description)"
             } else {
-                text = "Error: Status Code \(statusCode)"
+                text = "Error: Status Code: \(statusCode)"
             }
         }
         return [NSLocalizedDescriptionKey: text]

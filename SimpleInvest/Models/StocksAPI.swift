@@ -15,7 +15,7 @@ public struct StocksAPI {
         return decoder
     }()
     
-    public init() {}
+//    public init() {}
     
     func fetch<D: Decodable>(url: URL) async throws -> (D, Int) {
         let (data, response) = try await session.data(from: url)

@@ -10,7 +10,7 @@ import SwiftUI
 struct MainTabView: View {
     @EnvironmentObject private var authModel: AuthViewModel
     @StateObject var stocksViewModel: StocksViewModel
-    @StateObject var searchViewModel = SearchStockViewModel()
+    @StateObject var searchViewModel = SearchStockViewModel(matchedStocks: [])
     var body: some View {
         Group{
             if authModel.user != nil {
@@ -35,8 +35,18 @@ struct MainTabView: View {
             }
         }
         .onAppear(perform: {
-            let email = authModel.user?.email ?? "nil"
-            print("current user state \(email)")
+            print("mainTabViewappeared")
+            Task{
+                do{
+                    if authModel.user != nil{
+                        let email = authModel.user?.email ?? "nil"
+                        print("current user state \(email)")
+                        stocksViewModel.initialFetch()
+                    } else{
+                        print("user in maintabview appeared to be nil. Fetch not executed")
+                    }
+                }
+            }
         })
     }
 }
