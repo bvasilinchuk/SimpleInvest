@@ -27,8 +27,6 @@ class ChartViewModel: ObservableObject{
     
     @Published var selectedX: (any Plottable)?
     
-
-//
     private let dateFormatter = DateFormatter()
     
     private let selectedValueDateFormatter = {
@@ -53,11 +51,6 @@ class ChartViewModel: ObservableObject{
     var selectedXOpacity: Double{
         selectedX == nil ? 1 : 0
     }
-    
-//    var selectedXRuleMark: (value: Date, text: String)? {
-//        guard let selectedX = selectedX as? Date, let chart else {return nil}
-//        return (selectedX, String(format: "%.2f", chart.items[index].value))
-//    }
     
     var foregroundMarkColor: Color{
         selectedX != nil ? .cyan : chart?.lineColor ?? .cyan

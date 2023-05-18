@@ -28,7 +28,7 @@ struct StockView: View {
                     }.frame(maxWidth: UIScreen.main.bounds.width / 2)
                     Spacer()
                     VStack{
-                        Text("\(stock.currentPrice ?? 0, specifier: "%.2f") $")
+                        Text("$" + stock.currentPriceText)
                             .font(.title3.bold())
                         Text("\(stock.averageProfitCash ?? 0>0 ? "+":"")\(stock.averageProfitCash ?? 0, specifier: "%.2f")$ · \(stock.averageProfitPercent ?? 0, specifier: "%.2f")%")
                             .lossProfitColor(value: stock.averageProfitCash ?? 0)
@@ -44,6 +44,7 @@ struct StockView: View {
                 }
             }
             .padding()
+            
             ScrollView{
                 chartView.frame(minHeight: 220)
                     .padding()
@@ -54,66 +55,7 @@ struct StockView: View {
                 StockPriceRangeView(currentPrice: stock.currentPrice ?? 0, highestPrice: stock.fiftyTwoWeekHigh ?? 0, lowestPrice: stock.fiftyTwoWeekLow ?? 0)
                     .frame(minHeight: UIScreen.main.bounds.height/10)
                     .padding()
-                
-                //                HStack {
-                //                    VStack(alignment: .leading){
-                //                        VStack(alignment: .leading){
-                //                            Text("Dividend yield")
-                //                                .foregroundColor(.secondary)
-                //                                .font(.caption)
-                //                            Text("\((stock.dividendYield ?? 0)*100, specifier: "%.2f") %")
-                //                                .bold()
-                //                        }
-                //                        .padding(.bottom, 5)
-                //                        VStack(alignment: .leading){
-                //                            Text("Market Cap")
-                //                                .foregroundColor(.secondary)
-                //                                .font(.caption)
-                //                            Text(stock.marketCapText ?? "-")
-                //                                .bold()
-                //                        }
-                //                        .padding(.bottom, 5)
-                //                        VStack(alignment: .leading){
-                //                            Text("P/E (TTM)")
-                //                                .foregroundColor(.secondary)
-                //                                .font(.caption)
-                //                            Text("\((stock.peRatio ?? 0), specifier: "%.2f")")
-                //                                .bold()
-                //                        }
-                //
-                //                    }
-                //                        .frame(width: UIScreen.main.bounds.width/2)
-                //                    VStack(alignment: .leading){
-                //                        VStack(alignment: .leading){
-                //                            Text("Dividend yield")
-                //                                .foregroundColor(.secondary)
-                //                                .font(.caption)
-                //                            Text("\((stock.dividendYield ?? 0)*100, specifier: "%.2f") %")
-                //                                .bold()
-                //                        }
-                //                        .padding(.bottom, 5)
-                //                        VStack(alignment: .leading){
-                //                            Text("Market Cap")
-                //                                .foregroundColor(.secondary)
-                //                                .font(.caption)
-                //                            Text(stock.marketCapText ?? "-")
-                //                                .bold()
-                //                        }
-                //                        .padding(.bottom, 5)
-                //                        VStack(alignment: .leading){
-                //                            Text("P/E (TTM)")
-                //                                .foregroundColor(.secondary)
-                //                                .font(.caption)
-                //                            Text("\((stock.peRatio ?? 0), specifier: "%.2f")")
-                //                                .bold()
-                //                        }
-                //                    }
-                //                        .frame(width: UIScreen.main.bounds.width/2)
-                //                }
-                ContentView(stock: stock)
-                //                .padding(.top)
-                //                .padding(.top)
-                //                .padding(.top)
+                MarketDataView(stock: stock)
             }
         }
         .task(id: chartViewModel.selectedRange) {

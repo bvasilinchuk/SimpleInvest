@@ -19,7 +19,7 @@ class SearchStockViewModel: ObservableObject{
         startObserving()
     }
 
-    func fetchStocks(ticker: String) async throws -> ([SearchStock], [SearchNews]){
+    func fetchStockSearchData(ticker: String) async throws -> ([SearchStock], [SearchNews]){
         guard let url = URL(string:"https://query1.finance.yahoo.com/v1/finance/search?q=\(ticker)")else {
             throw APIServiceError.invalidURL
         }
@@ -37,14 +37,14 @@ class SearchStockViewModel: ObservableObject{
         searchString = ""
     }
     
-    func getStockAsync(ticker: String, completion: @escaping () -> ()) {
+    func searchStocksAsync(ticker: String, completion: @escaping () -> ()) {
         print("getStockAsync works for ticker:\(ticker)")
         if ticker == "" {
             matchedStocks = []
         } else {
         Task{
             do{
-                let stock = try? await fetchStocks(ticker: ticker)
+                let stock = try? await fetchStockSearchData(ticker: ticker)
                 if let stock = stock {
                     let result = stock.0.filter({$0.name != nil})
                     matchedStocks = Array(result.prefix(6))
@@ -59,7 +59,7 @@ class SearchStockViewModel: ObservableObject{
         print("getNewsAsync works for ticker:\(ticker)")
         Task{
             do{
-                let stock = try? await fetchStocks(ticker: ticker)
+                let stock = try? await fetchStockSearchData(ticker: ticker)
                 if let stock = stock {
                     let news = stock.1
                     matchedNews = news
@@ -75,7 +75,7 @@ class SearchStockViewModel: ObservableObject{
             .debounce(for: 0.25, scheduler: DispatchQueue.main)
             .removeDuplicates()
             .sink { _ in
-                Task { [weak self] in self?.getStockAsync(ticker:self?.searchString ?? "", completion:{}) }
+                Task { [weak self] in self?.searchStocksAsync(ticker:self?.searchString ?? "", completion:{}) }
 
                 print("sink was triggered")
             }

@@ -16,7 +16,7 @@ struct SplashView: View {
             MainTabView(stocksViewModel: StocksViewModel(email: email, stocks: [Stock](), stockRefs: [StockReference]()))
         } else{
             ZStack{
-                Color("blue")
+                Color("launchColor")
                     .ignoresSafeArea()
 //                    // Add your splash screen content here
 //                    Text("SimpleInvest")
