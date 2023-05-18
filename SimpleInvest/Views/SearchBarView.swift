@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-//это нужно для обновлений при добавлении новых символов
 import Combine
 
 struct SearchBarView: View {

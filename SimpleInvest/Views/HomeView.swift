@@ -45,6 +45,8 @@ struct HomeView: View {
             .padding()
             .background(Color.secondary.opacity(0.15))
             .cornerRadius(10)
+            .redacted(reason: stocksViewModel.isLoading ? .placeholder : [])
+            .animatePlaceholder(isLoading: stocksViewModel.isLoading)
             ZStack{
                 List { ForEach(stocksViewModel.stocks){stock in
                     NavigationLink(destination: StockTabView(stock: stock, chartViewModel: ChartViewModel(stock: stock)), label: {ListRowView(name: stock.name, price: stock.currentPrice, totalPrice: stock.totalPrice, ticker: stock.ticker, quantity: stock.quantity, profitCash: stock.averageProfitCash, profitPercent: stock.averageProfitPercent, placement: .home)})
@@ -71,14 +73,12 @@ struct HomeView: View {
         .padding()
         .navigationTitle("SimpleInvest")
         .refreshable {
-            stocksViewModel.fetchAllStocks(completion: {_ in })
+            stocksViewModel.fetchAllStocksYahoo(completion: {_ in })
         }
     }
         .navigationBarTitleDisplayMode(.inline)
-        // Не понимаю почему этот метод вызывается при логауте
-        // Как было: после логаута при загрузке экрана логина вызывался fetchStocks со старой почтой. Из за этого дублировались данные от предыдущего аккаунта. Добавил проверку юзера, чтобы запрос не проходил на экране логина
         .onAppear(perform: {
-            stocksViewModel.fetchAllStocks(completion: {_ in })
+            stocksViewModel.fetchAllStocksYahoo(completion: {_ in })
         })
 
         .sheet(isPresented: $showSearchView, content: {SearchBarView()})

@@ -19,9 +19,6 @@ struct SignUpView: View {
     var body: some View {
         VStack {
             Spacer()
-//            TextField("Name", text: $name)
-//                .textFieldStyle(RoundedBorderTextFieldStyle())
-//                .padding(.horizontal)
             TextField("Email", text: $email)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.horizontal)
@@ -29,9 +26,6 @@ struct SignUpView: View {
             SecureField("Password", text: $password)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.horizontal)
-//            SecureField("Confirm Password", text: $confirmPassword)
-//                .textFieldStyle(RoundedBorderTextFieldStyle())
-//                .padding(.horizontal)
             Button(action: {
                 authViewModel.signUp(emailAddress: email, password: password, completion: {stocksViewModel.email = authViewModel.user?.email ?? ""})
             }, label: {

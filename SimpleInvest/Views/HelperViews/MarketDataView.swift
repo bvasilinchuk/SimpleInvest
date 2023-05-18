@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct MarketDataView: View {
     @Environment(\.colorScheme) var colorScheme
     let stock: Stock
     private let selectedValueDateFormatter = {
@@ -104,6 +104,6 @@ struct ContentView: View {
 
 struct MarketDataView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(stock: Stock.previewStocks.first!)
+        MarketDataView(stock: Stock.previewStocks.first!)
     }
 }

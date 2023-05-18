@@ -31,6 +31,7 @@ final class AuthViewModel: ObservableObject {
                 self.error = error
                 print(error?.localizedDescription ?? "")
                 self.hasError = true
+                self.isLoading = false
                 return
             } else {
                 print("success")
@@ -65,6 +66,7 @@ final class AuthViewModel: ObservableObject {
                 print("an error occured: \(error.localizedDescription)")
                 self.error = error
                 self.hasError = true
+                self.isLoading = false
                 return
             }
             completion()

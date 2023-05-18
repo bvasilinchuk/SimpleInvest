@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		820699E629F6B401008F1823 /* MarketDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820699E529F6B401008F1823 /* MarketDataView.swift */; };
-		821BE2BA29C7BBDF004C084B /* Good things to use.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821BE2B929C7BBDF004C084B /* Good things to use.swift */; };
 		821BE2C029DB3AA0004C084B /* StockChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821BE2BF29DB3AA0004C084B /* StockChart.swift */; };
 		821BE2C229DF72BD004C084B /* StocksAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821BE2C129DF72BD004C084B /* StocksAPI.swift */; };
 		821BE2C429DF7349004C084B /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821BE2C329DF7349004C084B /* APIError.swift */; };
@@ -28,19 +27,19 @@
 		8265766E29904E3400C716C3 /* SimpleInvestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8265766D29904E3400C716C3 /* SimpleInvestTests.swift */; };
 		8265767829904E3400C716C3 /* SimpleInvestUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8265767729904E3400C716C3 /* SimpleInvestUITests.swift */; };
 		8265767A29904E3400C716C3 /* SimpleInvestUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8265767929904E3400C716C3 /* SimpleInvestUITestsLaunchTests.swift */; };
+		827E551C2A1136BE007A9C83 /* AnimatePlaceholderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827E551B2A1136BE007A9C83 /* AnimatePlaceholderModifier.swift */; };
 		8287FA5029B3D8A700AB611A /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8287FA4F29B3D8A700AB611A /* SplashView.swift */; };
 		8287FA5329BCD98900AB611A /* StockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8287FA5229BCD98900AB611A /* StockView.swift */; };
 		8287FA5529BE460F00AB611A /* StockQuote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8287FA5429BE460F00AB611A /* StockQuote.swift */; };
 		8287FA5729BE47D500AB611A /* StockSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8287FA5629BE47D500AB611A /* StockSearch.swift */; };
-		8287FA5B29BE499F00AB611A /* StockSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8287FA5A29BE499F00AB611A /* StockSummary.swift */; };
 		82A8F6BF2990549400DC84F9 /* ListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A8F6BE2990549400DC84F9 /* ListRowView.swift */; };
 		82A8F6C1299065D400DC84F9 /* Stock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A8F6C0299065D400DC84F9 /* Stock.swift */; };
 		82A8F6C32990679300DC84F9 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A8F6C22990679300DC84F9 /* MainTabView.swift */; };
 		82A8F6C52990681600DC84F9 /* AddNewAssetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A8F6C42990681600DC84F9 /* AddNewAssetView.swift */; };
 		82A8F6C929906CCE00DC84F9 /* StocksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A8F6C829906CCE00DC84F9 /* StocksViewModel.swift */; };
 		82A8F6CB2991A4A700DC84F9 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A8F6CA2991A4A700DC84F9 /* SearchBarView.swift */; };
+		82C8B8C329FF08A300AE0265 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 82C8B8C229FF08A300AE0265 /* Launch Screen.storyboard */; };
 		82E0FB7829F48073000123EB /* StockReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E0FB7729F48073000123EB /* StockReference.swift */; };
-		82E0FB7A29F57413000123EB /* LoadingStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E0FB7929F57413000123EB /* LoadingStateView.swift */; };
 		82E0FB7C29F5748A000123EB /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E0FB7B29F5748A000123EB /* EmptyStateView.swift */; };
 		82E9877929A2BEEA00D63054 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82E9877829A2BEEA00D63054 /* GoogleService-Info.plist */; };
 		82E9877C29A2C07E00D63054 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 82E9877B29A2C07E00D63054 /* FirebaseAuth */; };
@@ -75,7 +74,6 @@
 
 /* Begin PBXFileReference section */
 		820699E529F6B401008F1823 /* MarketDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDataView.swift; sourceTree = "<group>"; };
-		821BE2B929C7BBDF004C084B /* Good things to use.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Good things to use.swift"; sourceTree = "<group>"; };
 		821BE2BF29DB3AA0004C084B /* StockChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockChart.swift; sourceTree = "<group>"; };
 		821BE2C129DF72BD004C084B /* StocksAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksAPI.swift; sourceTree = "<group>"; };
 		821BE2C329DF7349004C084B /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
@@ -98,20 +96,20 @@
 		8265767329904E3400C716C3 /* SimpleInvestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimpleInvestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8265767729904E3400C716C3 /* SimpleInvestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleInvestUITests.swift; sourceTree = "<group>"; };
 		8265767929904E3400C716C3 /* SimpleInvestUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleInvestUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		827E551B2A1136BE007A9C83 /* AnimatePlaceholderModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatePlaceholderModifier.swift; sourceTree = "<group>"; };
 		8287FA4F29B3D8A700AB611A /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		8287FA5129B4C37A00AB611A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8287FA5229BCD98900AB611A /* StockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockView.swift; sourceTree = "<group>"; };
 		8287FA5429BE460F00AB611A /* StockQuote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockQuote.swift; sourceTree = "<group>"; };
 		8287FA5629BE47D500AB611A /* StockSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockSearch.swift; sourceTree = "<group>"; };
-		8287FA5A29BE499F00AB611A /* StockSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockSummary.swift; sourceTree = "<group>"; };
 		82A8F6BE2990549400DC84F9 /* ListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRowView.swift; sourceTree = "<group>"; };
 		82A8F6C0299065D400DC84F9 /* Stock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stock.swift; sourceTree = "<group>"; };
 		82A8F6C22990679300DC84F9 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		82A8F6C42990681600DC84F9 /* AddNewAssetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewAssetView.swift; sourceTree = "<group>"; };
 		82A8F6C829906CCE00DC84F9 /* StocksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksViewModel.swift; sourceTree = "<group>"; };
 		82A8F6CA2991A4A700DC84F9 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
+		82C8B8C229FF08A300AE0265 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		82E0FB7729F48073000123EB /* StockReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockReference.swift; sourceTree = "<group>"; };
-		82E0FB7929F57413000123EB /* LoadingStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingStateView.swift; sourceTree = "<group>"; };
 		82E0FB7B29F5748A000123EB /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		82E9877829A2BEEA00D63054 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		82E9878729A2CD0E00D63054 /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
@@ -152,6 +150,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		820699E729F87DF9008F1823 /* HelperViews */ = {
+			isa = PBXGroup;
+			children = (
+				820699E529F6B401008F1823 /* MarketDataView.swift */,
+				82258D9F29F5BA2400AD7825 /* FiftyTwoWeekBar.swift */,
+				82E0FB7B29F5748A000123EB /* EmptyStateView.swift */,
+				8251860E29EB2A4F005DAA2A /* ChartView.swift */,
+				8251860429E9AE4F005DAA2A /* DateRangePickerView.swift */,
+				82A8F6BE2990549400DC84F9 /* ListRowView.swift */,
+			);
+			path = HelperViews;
+			sourceTree = "<group>";
+		};
 		8265765029904E3200C716C3 = {
 			isa = PBXGroup;
 			children = (
@@ -184,6 +195,7 @@
 				8265765C29904E3200C716C3 /* SimpleInvestApp.swift */,
 				8265766029904E3400C716C3 /* Assets.xcassets */,
 				8265766229904E3400C716C3 /* Preview Content */,
+				82C8B8C229FF08A300AE0265 /* Launch Screen.storyboard */,
 			);
 			path = SimpleInvest;
 			sourceTree = "<group>";
@@ -216,9 +228,9 @@
 		826576862990540900C716C3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				820699E729F87DF9008F1823 /* HelperViews */,
 				8265765E29904E3200C716C3 /* HomeView.swift */,
 				8287FA5229BCD98900AB611A /* StockView.swift */,
-				82A8F6BE2990549400DC84F9 /* ListRowView.swift */,
 				82A8F6C22990679300DC84F9 /* MainTabView.swift */,
 				82A8F6C42990681600DC84F9 /* AddNewAssetView.swift */,
 				82A8F6CA2991A4A700DC84F9 /* SearchBarView.swift */,
@@ -226,14 +238,8 @@
 				82E9878929A2CD1E00D63054 /* SignUpView.swift */,
 				82E9878F29AA148700D63054 /* AccountView.swift */,
 				8287FA4F29B3D8A700AB611A /* SplashView.swift */,
-				8251860429E9AE4F005DAA2A /* DateRangePickerView.swift */,
-				8251860E29EB2A4F005DAA2A /* ChartView.swift */,
 				821E1F0D29F1C9D500B5252F /* StockTabView.swift */,
 				82F3E04829F2B22100185540 /* StockNewsView.swift */,
-				82E0FB7929F57413000123EB /* LoadingStateView.swift */,
-				82E0FB7B29F5748A000123EB /* EmptyStateView.swift */,
-				82258D9F29F5BA2400AD7825 /* FiftyTwoWeekBar.swift */,
-				820699E529F6B401008F1823 /* MarketDataView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -242,16 +248,15 @@
 			isa = PBXGroup;
 			children = (
 				82A8F6C0299065D400DC84F9 /* Stock.swift */,
-				821BE2C129DF72BD004C084B /* StocksAPI.swift */,
-				821BE2C329DF7349004C084B /* APIError.swift */,
 				8287FA5429BE460F00AB611A /* StockQuote.swift */,
 				8287FA5629BE47D500AB611A /* StockSearch.swift */,
-				8287FA5A29BE499F00AB611A /* StockSummary.swift */,
 				821BE2BF29DB3AA0004C084B /* StockChart.swift */,
 				8234210C29E30F4300EA092F /* ChartRange.swift */,
 				8251860629EAD005005DAA2A /* ChartViewData.swift */,
-				8251860A29EAD3EE005DAA2A /* FetchPhase.swift */,
 				82E0FB7729F48073000123EB /* StockReference.swift */,
+				821BE2C329DF7349004C084B /* APIError.swift */,
+				8251860A29EAD3EE005DAA2A /* FetchPhase.swift */,
+				821BE2C129DF72BD004C084B /* StocksAPI.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -271,7 +276,7 @@
 			isa = PBXGroup;
 			children = (
 				82E9879129AE9F5800D63054 /* Extensions.swift */,
-				821BE2B929C7BBDF004C084B /* Good things to use.swift */,
+				827E551B2A1136BE007A9C83 /* AnimatePlaceholderModifier.swift */,
 			);
 			path = SupportingFiles;
 			sourceTree = "<group>";
@@ -392,6 +397,7 @@
 			files = (
 				8265766429904E3400C716C3 /* Preview Assets.xcassets in Resources */,
 				8265766129904E3400C716C3 /* Assets.xcassets in Resources */,
+				82C8B8C329FF08A300AE0265 /* Launch Screen.storyboard in Resources */,
 				82E9877929A2BEEA00D63054 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -420,14 +426,12 @@
 				8265765F29904E3200C716C3 /* HomeView.swift in Sources */,
 				821BE2C029DB3AA0004C084B /* StockChart.swift in Sources */,
 				82E0FB7829F48073000123EB /* StockReference.swift in Sources */,
-				82E0FB7A29F57413000123EB /* LoadingStateView.swift in Sources */,
 				8234210D29E30F4300EA092F /* ChartRange.swift in Sources */,
 				8287FA5029B3D8A700AB611A /* SplashView.swift in Sources */,
 				82A8F6C1299065D400DC84F9 /* Stock.swift in Sources */,
 				8265765D29904E3200C716C3 /* SimpleInvestApp.swift in Sources */,
 				8251860F29EB2A4F005DAA2A /* ChartView.swift in Sources */,
 				8251860929EAD112005DAA2A /* ChartViewModel.swift in Sources */,
-				8287FA5B29BE499F00AB611A /* StockSummary.swift in Sources */,
 				82A8F6C929906CCE00DC84F9 /* StocksViewModel.swift in Sources */,
 				82E9879029AA148700D63054 /* AccountView.swift in Sources */,
 				8287FA5729BE47D500AB611A /* StockSearch.swift in Sources */,
@@ -437,6 +441,7 @@
 				821BE2C429DF7349004C084B /* APIError.swift in Sources */,
 				821E1F0E29F1C9D500B5252F /* StockTabView.swift in Sources */,
 				82A8F6BF2990549400DC84F9 /* ListRowView.swift in Sources */,
+				827E551C2A1136BE007A9C83 /* AnimatePlaceholderModifier.swift in Sources */,
 				8287FA5329BCD98900AB611A /* StockView.swift in Sources */,
 				825196FD299419BB00D50F21 /* SearchStockViewModel.swift in Sources */,
 				82E9878829A2CD0E00D63054 /* LogInView.swift in Sources */,
@@ -449,7 +454,6 @@
 				8251860529E9AE4F005DAA2A /* DateRangePickerView.swift in Sources */,
 				821BE2C229DF72BD004C084B /* StocksAPI.swift in Sources */,
 				82E9878E29A6BBA600D63054 /* AuthViewModel.swift in Sources */,
-				821BE2BA29C7BBDF004C084B /* Good things to use.swift in Sources */,
 				82A8F6C32990679300DC84F9 /* MainTabView.swift in Sources */,
 				82E9879229AE9F5800D63054 /* Extensions.swift in Sources */,
 				82F3E04929F2B22100185540 /* StockNewsView.swift in Sources */,
@@ -618,6 +622,7 @@
 				INFOPLIST_FILE = SimpleInvest/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -649,6 +654,7 @@
 				INFOPLIST_FILE = SimpleInvest/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;

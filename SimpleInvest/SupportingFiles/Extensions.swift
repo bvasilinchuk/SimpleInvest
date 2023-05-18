@@ -96,7 +96,6 @@ struct StandardButtonStyle: ButtonStyle{
         }
 }
 
-
 extension Date {
     
     func dateComponents(timeZone: TimeZone, rangeType: ChartRange, calendar: Calendar = .current) -> DateComponents {
